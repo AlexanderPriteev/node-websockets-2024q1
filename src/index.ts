@@ -2,7 +2,6 @@ import { httpServer } from './http_server';
 import { WebSocketServer } from 'ws';
 import switcher from './modules/switcher';
 import * as console from 'console';
-import { INVALID_INPUT } from './utils/const';
 import logout from './modules/command_types/logout';
 
 const HTTP_PORT = 8181;
@@ -14,13 +13,14 @@ wss.on('connection', function connection(ws) {
   ws.on('error', console.error);
 
   ws.on('message', function message(data: string) {
+    console.log(JSON.parse(data));
     const res = JSON.stringify(JSON.parse(data));
-    const result = switcher(res, id);
-    if (result === INVALID_INPUT) {
-      console.log(INVALID_INPUT);
-    } else {
-      ws.send(result);
-    }
+    switcher(res, id, ws);
+    // if (result === INVALID_INPUT) {
+    //   console.log(INVALID_INPUT);
+    // } else {
+    //   ws.send(result);
+    // }
   });
 
   ws.on('close', function close() {

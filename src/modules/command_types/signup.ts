@@ -5,16 +5,15 @@ import {
   ERROR_PASSWORD,
   INVALID_INPUT,
 } from '../../utils/const';
+import { WebSocket } from 'ws';
+import getUser from '../../utils/getters/getUser';
+import * as console from 'console';
+import getResponse from "../../utils/getters/getResponse";
 
-export default function signup(req: string, id: number): string {
+export default function signup(req: string, id: number, ws: WebSocket): void {
   try {
     const data = JSON.parse(req);
-    const res: IUser = {
-      name: data.name,
-      index: id,
-      error: false,
-      errorText: '',
-    };
+    const res: IUser = getUser(data.name, id);
     if (dataBase.users.has(data.name)) {
       const user = dataBase.users.get(data.name) as IUser;
       if (user.password !== data.password) {
@@ -36,8 +35,10 @@ export default function signup(req: string, id: number): string {
     if (!res.error) {
       dataBase.connections.set(id, data.name);
     }
-    return JSON.stringify(res);
+
+    const result = getResponse('reg', JSON.stringify(res));
+    ws.send(JSON.stringify(result));
   } catch {
-    return INVALID_INPUT;
+    console.log(INVALID_INPUT);
   }
 }
