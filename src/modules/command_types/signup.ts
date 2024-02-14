@@ -8,7 +8,9 @@ import {
 import { WebSocket } from 'ws';
 import getUser from '../../utils/getters/getUser';
 import * as console from 'console';
-import getResponse from "../../utils/getters/getResponse";
+import getResponse from '../../utils/getters/getResponse';
+import updateWinners from './update_winners';
+import updateRoom from './update_room';
 
 export default function signup(req: string, id: number, ws: WebSocket): void {
   try {
@@ -38,6 +40,8 @@ export default function signup(req: string, id: number, ws: WebSocket): void {
 
     const result = getResponse('reg', JSON.stringify(res));
     ws.send(JSON.stringify(result));
+    updateRoom(ws);
+    updateWinners(ws);
   } catch {
     console.log(INVALID_INPUT);
   }

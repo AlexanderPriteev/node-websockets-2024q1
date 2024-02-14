@@ -1,7 +1,7 @@
 export interface IDB {
   users: Map<string, IUser>;
   connections: Map<number, string>;
-  winners: Map<string, number>;
+  winners: Map<string, IWinner>;
   rooms: Map<string, IRoom>;
   games: Map<string, IGame>;
 }
@@ -21,6 +21,11 @@ export interface IUser {
   errorText?: string;
   room?: number;
   game?: number;
+}
+
+export interface IWinner {
+  name: string;
+  wins: number;
 }
 
 export interface IRoom {
