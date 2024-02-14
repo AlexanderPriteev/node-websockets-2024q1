@@ -1,4 +1,4 @@
-import { dataBase } from '../db';
+import { dataBase } from '../../data_base/db';
 import { IUser } from '../../utils/interfaces';
 import {
   ERROR_IS_ACTIVE,

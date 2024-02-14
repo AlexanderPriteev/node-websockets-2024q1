@@ -1,6 +1,6 @@
 import { IResult } from '../utils/interfaces';
 import { INVALID_INPUT } from '../utils/const';
-import { dataBase } from './db';
+import { dataBase } from '../data_base/db';
 import * as console from 'console';
 import signup from './command_types/signup';
 

@@ -1,4 +1,4 @@
-import { dataBase } from '../db';
+import { dataBase } from '../../data_base/db';
 import { IUser } from '../../utils/interfaces';
 
 export default function logout(id: number) {
