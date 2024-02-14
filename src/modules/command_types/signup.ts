@@ -34,7 +34,7 @@ export default function signup(req: string, id: number, ws: WebSocket): void {
       });
     }
     if (!res.error) {
-      dataBase.connections.set(id, data.name);
+      dataBase.connections.set(id, {name: data.name, socket: ws});
     }
 
     const result = getResponse('reg', JSON.stringify(res));

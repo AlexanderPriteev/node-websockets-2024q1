@@ -1,9 +1,16 @@
+import {WebSocket} from "ws";
+
 export interface IDB {
   users: Map<string, IUser>;
-  connections: Map<number, string>;
+  connections: Map<number, IConnect>;
   winners: Map<string, IWinner>;
   rooms: Map<number, IRoom>;
-  games: Map<string, IGame>;
+  games: Map<number, IGame>;
+}
+
+export interface IConnect{
+  name: string;
+  socket: WebSocket;
 }
 
 export interface IResult {
@@ -29,7 +36,7 @@ export interface IWinner {
 }
 
 export interface IRoom {
-  roomID: number;
+  roomId: number;
   roomUsers: IUser[];
   isGame: boolean;
   payersCount: number;
@@ -45,17 +52,16 @@ export interface IShip {
   type: 'small' | 'medium' | 'large' | 'huge';
 }
 
-interface IPlayer {
+export interface IPlayer {
   index: number;
   name: string;
   ships: IShip[];
 }
 
 export interface IGame {
-  gameID: number;
-  roomID: number;
+  gameId: number;
+  roomId: number;
   isStart: boolean;
-  roomUsers: IUser[];
   players: IPlayer[];
 }
 

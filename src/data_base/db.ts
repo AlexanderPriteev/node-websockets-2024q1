@@ -1,9 +1,9 @@
-import { IDB, IGame, IRoom, IUser, IWinner } from '../utils/interfaces';
+import {IConnect, IDB, IGame, IRoom, IUser, IWinner} from '../utils/interfaces';
 
 export const dataBase: IDB = {
   users: new Map<string, IUser>(),
-  connections: new Map<number, string>(),
+  connections: new Map<number, IConnect>(),
   winners: new Map<string, IWinner>(),
   rooms: new Map<number, IRoom>(),
-  games: new Map<string, IGame>(),
+  games: new Map<number, IGame>(),
 };

@@ -5,7 +5,7 @@ import { wss } from '../../ws_server';
 
 export default function updateRoom(ws?: WebSocket) {
   const rooms = [...dataBase.rooms.values()].map((e) => ({
-    roomId: e.roomID,
+    roomId: e.roomId,
     roomUsers: e.roomUsers,
   }));
   const result = getResponse('update_room', JSON.stringify(rooms));
