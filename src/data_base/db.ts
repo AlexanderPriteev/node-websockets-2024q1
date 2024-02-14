@@ -4,6 +4,6 @@ export const dataBase: IDB = {
   users: new Map<string, IUser>(),
   connections: new Map<number, string>(),
   winners: new Map<string, IWinner>(),
-  rooms: new Map<string, IRoom>(),
+  rooms: new Map<number, IRoom>(),
   games: new Map<string, IGame>(),
 };

@@ -6,9 +6,8 @@ import {
   INVALID_INPUT,
 } from '../../utils/const';
 import { WebSocket } from 'ws';
-import getUser from '../../utils/getters/getUser';
-import * as console from 'console';
-import getResponse from '../../utils/getters/getResponse';
+import getUser from '../../utils/getters/get_user';
+import getResponse from '../../utils/getters/get_response';
 import updateWinners from './update_winners';
 import updateRoom from './update_room';
 

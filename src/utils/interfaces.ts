@@ -2,7 +2,7 @@ export interface IDB {
   users: Map<string, IUser>;
   connections: Map<number, string>;
   winners: Map<string, IWinner>;
-  rooms: Map<string, IRoom>;
+  rooms: Map<number, IRoom>;
   games: Map<string, IGame>;
 }
 

@@ -1,9 +1,9 @@
 import { WebSocket } from 'ws';
 import { dataBase } from '../../data_base/db';
-import getResponse from '../../utils/getters/getResponse';
+import getResponse from '../../utils/getters/get_response';
 import { wss } from '../../ws_server';
 
-export default function updateWinners(ws: WebSocket) {
+export default function updateWinners(ws?: WebSocket) {
   const winners = Array.from(dataBase.winners.values());
   const result = getResponse('update_winners', JSON.stringify(winners));
   if (ws) {

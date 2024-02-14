@@ -1,11 +1,11 @@
 import { WebSocket } from 'ws';
-import getResponse from '../../utils/getters/getResponse';
+import getResponse from '../../utils/getters/get_response';
 import { dataBase } from '../../data_base/db';
 import { wss } from '../../ws_server';
 
-export default function updateRoom(ws: WebSocket) {
+export default function updateRoom(ws?: WebSocket) {
   const rooms = [...dataBase.rooms.values()].map((e) => ({
-    roomID: e.roomID,
+    roomId: e.roomID,
     roomUsers: e.roomUsers,
   }));
   const result = getResponse('update_room', JSON.stringify(rooms));
