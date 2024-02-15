@@ -1,6 +1,6 @@
 import getResponse from '../../utils/getters/get_response';
 import { dataBase } from '../../data_base/db';
-import { IConnect, IWinner } from '../../utils/interfaces';
+import { IConnect, IUser, IWinner } from '../../utils/interfaces';
 import updateWinners from './update_winners';
 
 export default function finish(enemy: IConnect, index: number) {
@@ -20,4 +20,8 @@ export default function finish(enemy: IConnect, index: number) {
     dataBase.winners.set(player.name, obj);
   }
   updateWinners();
+  const U1 = dataBase.users.get(player.name) as IUser;
+  U1.game = 0;
+  const U2 = dataBase.users.get(enemy.name) as IUser;
+  U2.game = 0;
 }

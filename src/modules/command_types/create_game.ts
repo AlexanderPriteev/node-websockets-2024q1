@@ -1,7 +1,7 @@
-import { IConnect, IGame, IPlayer, IRoom } from '../../utils/interfaces';
+import { IConnect, IGame, IPlayer, IRoom, IUser } from '../../utils/interfaces';
 import { dataBase } from '../../data_base/db';
-import { WebSocket } from 'ws';
 import getResponse from '../../utils/getters/get_response';
+import updateRoom from './update_room';
 
 export default function createGame(room: IRoom) {
   const gameId = new Date().getTime();
@@ -28,9 +28,14 @@ export default function createGame(room: IRoom) {
       idGame: gameId,
       idPlayer: e.index,
     });
-    const ws: WebSocket = (dataBase.connections.get(e.index) as IConnect)
-      .socket;
+    const ws = dataBase.connections.get(e.index) as IConnect;
+    const player = dataBase.users.get(ws.name) as IUser;
+    player.room = 0;
+    player.game = gameId;
     const res = JSON.stringify(getResponse('create_game', data));
-    ws.send(res);
+    ws.socket.send(res);
   });
+
+  dataBase.rooms.delete(room.roomId);
+  updateRoom();
 }
