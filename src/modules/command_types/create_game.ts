@@ -18,6 +18,7 @@ export default function createGame(room: IRoom) {
           name: e.name,
           ships: [],
           shipsGreed: [],
+          shipsCount: 0,
         }) as IPlayer,
     ),
   };

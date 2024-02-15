@@ -11,6 +11,7 @@ import getResponse from '../../utils/getters/get_response';
 import getAttack from '../../utils/getters/get_attack';
 import isKill from '../../utils/attack/is_kill';
 import killShip from '../../utils/attack/kill_ship';
+import finish from './finish';
 
 export default function attack(ws: WebSocket, data: string) {
   const dataParse = JSON.parse(data) as IAttackReq;
@@ -60,5 +61,7 @@ export default function attack(ws: WebSocket, data: string) {
   enemyWs.send(JSON.stringify(resTurn));
   if (type === 'killed') {
     killShip(ws, enemyWs, x, y, enemyPlayer.shipsGreed, curPlayer.index);
+    enemyPlayer.shipsCount -= 1;
+    if (!enemyPlayer.shipsCount) finish(enemyConnection, curPlayer.index);
   }
 }

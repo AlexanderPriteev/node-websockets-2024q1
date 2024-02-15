@@ -66,6 +66,7 @@ export interface IPlayer {
   ships: IShip[];
   isTurn?: boolean;
   shipsGreed: number[][];
+  shipsCount: number;
 }
 
 export interface IGame {

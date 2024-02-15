@@ -10,7 +10,6 @@ export default function killShip(
   grid: number[][],
   index: number,
 ) {
-
   function check(x: number, y: number) {
     const cell = (grid[x] as number[])[y] as number;
 
