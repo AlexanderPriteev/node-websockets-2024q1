@@ -3,8 +3,9 @@ import signup from './command_types/signup';
 import { WebSocket } from 'ws';
 import createRoom from './command_types/create_room';
 import addUserToRoom from './command_types/add_user_to_room';
+import addShips from './command_types/add_ships';
 
-export default function switcher(
+export default function controller(
   message: string,
   id: number,
   ws: WebSocket,
@@ -20,6 +21,9 @@ export default function switcher(
         break;
       case 'add_user_to_room':
         addUserToRoom(req.data, id);
+        break;
+      case 'add_ships':
+        addShips(req.data);
         break;
       default:
         console.log(INVALID_INPUT);

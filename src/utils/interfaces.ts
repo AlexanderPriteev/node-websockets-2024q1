@@ -1,4 +1,4 @@
-import {WebSocket} from "ws";
+import { WebSocket } from 'ws';
 
 export interface IDB {
   users: Map<string, IUser>;
@@ -8,7 +8,7 @@ export interface IDB {
   games: Map<number, IGame>;
 }
 
-export interface IConnect{
+export interface IConnect {
   name: string;
   socket: WebSocket;
 }
@@ -52,6 +52,12 @@ export interface IShip {
   type: 'small' | 'medium' | 'large' | 'huge';
 }
 
+export interface IShipReq {
+  gameId: number;
+  ships: IShip[];
+  indexPlayer: number;
+}
+
 export interface IPlayer {
   index: number;
   name: string;
@@ -62,6 +68,7 @@ export interface IGame {
   gameId: number;
   roomId: number;
   isStart: boolean;
+  readyPlayers: number;
   players: IPlayer[];
 }
 

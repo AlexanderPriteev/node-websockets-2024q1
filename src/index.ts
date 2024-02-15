@@ -1,6 +1,6 @@
 import { httpServer } from './http_server';
 import { wss } from './ws_server';
-import switcher from './modules/switcher';
+import controller from './modules/controller';
 import logout from './modules/command_types/logout';
 import { HTTP_PORT } from './utils/const';
 
@@ -11,7 +11,7 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function message(data: string) {
     console.log(JSON.parse(data));
     const res = JSON.stringify(JSON.parse(data));
-    switcher(res, id, ws);
+    controller(res, id, ws);
   });
 
   ws.on('close', function close() {

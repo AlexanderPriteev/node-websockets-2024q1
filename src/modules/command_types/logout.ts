@@ -1,5 +1,5 @@
 import { dataBase } from '../../data_base/db';
-import {IConnect, IUser} from '../../utils/interfaces';
+import { IConnect, IUser } from '../../utils/interfaces';
 
 export default function logout(id: number) {
   if (dataBase.connections.has(id)) {
