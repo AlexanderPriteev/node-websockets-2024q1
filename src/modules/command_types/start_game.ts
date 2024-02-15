@@ -8,6 +8,7 @@ export default function startGame(player: IPlayer, index: number) {
   const data = { ships: player.ships, currentPlayerIndex: player.index };
   const dataStr = JSON.stringify(data);
   const turn = JSON.stringify({ currentPlayer: index });
+  player.isTurn = index === player.index;
   const res = JSON.stringify(getResponse('start_game', dataStr));
   const resTurn = JSON.stringify(getResponse('turn', turn));
   ws.send(res);

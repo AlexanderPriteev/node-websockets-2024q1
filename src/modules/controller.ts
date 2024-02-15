@@ -4,6 +4,7 @@ import { WebSocket } from 'ws';
 import createRoom from './command_types/create_room';
 import addUserToRoom from './command_types/add_user_to_room';
 import addShips from './command_types/add_ships';
+import attack from './command_types/attack';
 
 export default function controller(
   message: string,
@@ -24,6 +25,12 @@ export default function controller(
         break;
       case 'add_ships':
         addShips(req.data);
+        break;
+      case 'attack':
+        attack(ws, req.data);
+        break;
+      case 'randomAttack':
+        attack(ws, req.data);
         break;
       default:
         console.log(INVALID_INPUT);

@@ -42,6 +42,8 @@ export interface IRoom {
   payersCount: number;
 }
 
+export type TShip = 'small' | 'medium' | 'large' | 'huge';
+
 export interface IShip {
   position: {
     x: number;
@@ -49,7 +51,7 @@ export interface IShip {
   };
   direction: boolean;
   length: number;
-  type: 'small' | 'medium' | 'large' | 'huge';
+  type: TShip;
 }
 
 export interface IShipReq {
@@ -62,6 +64,8 @@ export interface IPlayer {
   index: number;
   name: string;
   ships: IShip[];
+  isTurn?: boolean;
+  shipsGreed: number[][];
 }
 
 export interface IGame {
@@ -72,11 +76,20 @@ export interface IGame {
   players: IPlayer[];
 }
 
+export type TAttack = 'miss' | 'killed' | 'shot';
+
 export interface IAttack {
   position: {
     x: number;
     y: number;
   };
   currentPlayer: number;
-  status: 'miss' | 'killed' | 'shot';
+  status: TAttack;
+}
+
+export interface IAttackReq {
+  x: number;
+  y: number;
+  gameId: number;
+  indexPlayer: number;
 }

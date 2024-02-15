@@ -1,6 +1,7 @@
 import { IGame, IPlayer, IShipReq } from '../../utils/interfaces';
 import { dataBase } from '../../data_base/db';
 import startGame from './start_game';
+import getGrid from '../../utils/getters/get_grid';
 
 export default function addShips(data: string) {
   const req = JSON.parse(data) as IShipReq;
@@ -9,6 +10,7 @@ export default function addShips(data: string) {
     (e) => e.index === req.indexPlayer,
   ) as IPlayer;
   player.ships = req.ships;
+  player.shipsGreed = getGrid(req.ships);
   game.readyPlayers += 1;
 
   if (game.readyPlayers === 2) {
