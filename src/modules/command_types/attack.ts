@@ -9,7 +9,8 @@ import {
 import { dataBase } from '../../data_base/db';
 import getResponse from '../../utils/getters/get_response';
 import getAttack from '../../utils/getters/get_attack';
-import isKill from '../../utils/getters/is_kill';
+import isKill from '../../utils/attack/is_kill';
+import killShip from '../../utils/attack/kill_ship';
 
 export default function attack(ws: WebSocket, data: string) {
   const dataParse = JSON.parse(data) as IAttackReq;
@@ -31,7 +32,7 @@ export default function attack(ws: WebSocket, data: string) {
   let turnIndex = curPlayer.index;
 
   if (x === undefined || y === undefined) {
-    for (let row = 2; row === 2; ) {
+    for (let row = 2; row > 1; ) {
       x = Math.floor(Math.random() * 9);
       y = Math.floor(Math.random() * 9);
       row = (enemyPlayer.shipsGreed[x] as number[])[y] as number;
@@ -40,13 +41,14 @@ export default function attack(ws: WebSocket, data: string) {
   if (x === undefined || y === undefined) return;
 
   const row = enemyPlayer.shipsGreed[x as number] as number[];
-  if (row[y] === 2) return;
+  if ((row[y] as number) > 1) return;
   else if (!row[y]) {
+    row[y] = 2;
     curPlayer.isTurn = false;
     enemyPlayer.isTurn = true;
     turnIndex = enemyPlayer.index;
   } else {
-    row[y] = 2;
+    row[y] = 3;
     type = isKill(enemyPlayer.shipsGreed, x, y) ? 'killed' : 'shot';
   }
   const res = getResponse('attack', getAttack(x, y, curPlayer.index, type));
@@ -56,4 +58,7 @@ export default function attack(ws: WebSocket, data: string) {
   ws.send(JSON.stringify(resTurn));
   enemyWs.send(JSON.stringify(res));
   enemyWs.send(JSON.stringify(resTurn));
+  if (type === 'killed') {
+    killShip(ws, enemyWs, x, y, enemyPlayer.shipsGreed, curPlayer.index);
+  }
 }
