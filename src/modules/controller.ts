@@ -5,6 +5,7 @@ import createRoom from './command_types/create_room';
 import addUserToRoom from './command_types/add_user_to_room';
 import addShips from './command_types/add_ships';
 import attack from './command_types/attack';
+import singlePlay from './command_types/single_play';
 
 export default function controller(
   message: string,
@@ -31,6 +32,9 @@ export default function controller(
         break;
       case 'randomAttack':
         attack(ws, req.data);
+        break;
+      case 'single_play':
+        singlePlay(ws, id);
         break;
       default:
         console.log(INVALID_INPUT);

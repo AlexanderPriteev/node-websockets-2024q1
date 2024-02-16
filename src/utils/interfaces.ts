@@ -65,7 +65,7 @@ export interface IPlayer {
   name: string;
   ships: IShip[];
   isTurn?: boolean;
-  shipsGreed: number[][];
+  shipsGrid: number[][];
   shipsCount: number;
 }
 

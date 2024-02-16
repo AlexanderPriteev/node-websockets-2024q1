@@ -3,8 +3,8 @@ import getResponse from '../getters/get_response';
 import getAttack from '../getters/get_attack';
 
 export default function killShip(
-  player: WebSocket,
-  enemy: WebSocket,
+  player: WebSocket | null,
+  enemy: WebSocket | null,
   x: number,
   y: number,
   grid: number[][],
@@ -18,8 +18,8 @@ export default function killShip(
     (grid[x] as number[])[y] = 4;
     const type = cell === 3 ? 'killed' : 'miss';
     const res = getResponse('attack', getAttack(x, y, index, type));
-    player.send(JSON.stringify(res));
-    enemy.send(JSON.stringify(res));
+    if (player) player.send(JSON.stringify(res));
+    if (enemy) enemy.send(JSON.stringify(res));
 
     if (isNewCheck) {
       if (x > 0 && y > 0) check(x - 1, y - 1);

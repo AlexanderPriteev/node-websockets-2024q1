@@ -12,6 +12,7 @@ import getAttack from '../../utils/getters/get_attack';
 import isKill from '../../utils/attack/is_kill';
 import killShip from '../../utils/attack/kill_ship';
 import finish from './finish';
+import botAttack from '../../utils/bot/bot_attack';
 
 export default function attack(ws: WebSocket, data: string) {
   const dataParse = JSON.parse(data) as IAttackReq;
@@ -23,6 +24,10 @@ export default function attack(ws: WebSocket, data: string) {
   const P2 = game.players[1] as IPlayer;
   const curPlayer = P1.index === indexPlayer ? P1 : P2;
   const enemyPlayer = P1.index !== indexPlayer ? P1 : P2;
+  if (!enemyPlayer.index) {
+    botAttack(ws, dataParse, game);
+    return;
+  }
   const enemyConnection = dataBase.connections.get(
     enemyPlayer.index,
   ) as IConnect;
@@ -36,12 +41,12 @@ export default function attack(ws: WebSocket, data: string) {
     for (let row = 2; row > 1; ) {
       x = Math.floor(Math.random() * 9);
       y = Math.floor(Math.random() * 9);
-      row = (enemyPlayer.shipsGreed[x] as number[])[y] as number;
+      row = (enemyPlayer.shipsGrid[x] as number[])[y] as number;
     }
   }
   if (x === undefined || y === undefined) return;
 
-  const row = enemyPlayer.shipsGreed[x as number] as number[];
+  const row = enemyPlayer.shipsGrid[x as number] as number[];
   if ((row[y] as number) > 1) return;
   else if (!row[y]) {
     row[y] = 2;
@@ -50,7 +55,7 @@ export default function attack(ws: WebSocket, data: string) {
     turnIndex = enemyPlayer.index;
   } else {
     row[y] = 3;
-    type = isKill(enemyPlayer.shipsGreed, x, y) ? 'killed' : 'shot';
+    type = isKill(enemyPlayer.shipsGrid, x, y) ? 'killed' : 'shot';
   }
   const res = getResponse('attack', getAttack(x, y, curPlayer.index, type));
   const turn = JSON.stringify({ currentPlayer: turnIndex });
@@ -60,7 +65,7 @@ export default function attack(ws: WebSocket, data: string) {
   enemyWs.send(JSON.stringify(res));
   enemyWs.send(JSON.stringify(resTurn));
   if (type === 'killed') {
-    killShip(ws, enemyWs, x, y, enemyPlayer.shipsGreed, curPlayer.index);
+    killShip(ws, enemyWs, x, y, enemyPlayer.shipsGrid, curPlayer.index);
     enemyPlayer.shipsCount -= 1;
     if (!enemyPlayer.shipsCount) finish(enemyConnection, curPlayer.index);
   }

@@ -10,7 +10,7 @@ export default function addShips(data: string) {
     (e) => e.index === req.indexPlayer,
   ) as IPlayer;
   player.ships = req.ships;
-  player.shipsGreed = getGrid(req.ships);
+  player.shipsGrid = getGrid(req.ships);
   player.shipsCount = req.ships.length;
   game.readyPlayers += 1;
 
