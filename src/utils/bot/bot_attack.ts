@@ -30,11 +30,13 @@ export default function botAttack(
   if (x === undefined || y === undefined) return;
 
   const row = bot.shipsGrid[x as number] as number[];
-  if ((row[y] as number) > 1) return;
-  else if (!row[y]) {
-    row[y] = 2;
-    const res = getResponse('attack', getAttack(x, y, curPlayer.index, type));
-    ws.send(JSON.stringify(res));
+
+  if ((row[y] as number) !== 1)  {
+    if (!row[y]) {
+      row[y] = 2;
+      const res = getResponse('attack', getAttack(x, y, curPlayer.index, type));
+      ws.send(JSON.stringify(res));
+    }
     const turn = getResponse('turn', JSON.stringify({ currentPlayer: 0 }));
     ws.send(JSON.stringify(turn));
     const isFinish = botMove(curPlayer);

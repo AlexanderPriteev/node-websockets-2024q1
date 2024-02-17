@@ -47,22 +47,24 @@ export default function attack(ws: WebSocket, data: string) {
   if (x === undefined || y === undefined) return;
 
   const row = enemyPlayer.shipsGrid[x as number] as number[];
-  if ((row[y] as number) > 1) return;
-  else if (!row[y]) {
-    row[y] = 2;
+  let isRes = true;
+  if ((row[y] as number) !== 1) {
     curPlayer.isTurn = false;
     enemyPlayer.isTurn = true;
     turnIndex = enemyPlayer.index;
-  } else {
+    if (!row[y]) row[y] = 2;
+    else isRes = false;
+  }
+  else {
     row[y] = 3;
     type = isKill(enemyPlayer.shipsGrid, x, y) ? 'killed' : 'shot';
   }
   const res = getResponse('attack', getAttack(x, y, curPlayer.index, type));
   const turn = JSON.stringify({ currentPlayer: turnIndex });
   const resTurn = getResponse('turn', turn);
-  ws.send(JSON.stringify(res));
+  if(isRes) ws.send(JSON.stringify(res));
   ws.send(JSON.stringify(resTurn));
-  enemyWs.send(JSON.stringify(res));
+  if(isRes) enemyWs.send(JSON.stringify(res));
   enemyWs.send(JSON.stringify(resTurn));
   if (type === 'killed') {
     killShip(ws, enemyWs, x, y, enemyPlayer.shipsGrid, curPlayer.index);
